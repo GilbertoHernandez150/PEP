@@ -1,0 +1,65 @@
+﻿@page "/"
+@using RegistroTardanzas.Shared
+@inject NavigationManager NavigationManager
+
+@* 2023-1211/GilbertoHernandez *@
+@* Página principal que muestra la lista de estudiantes que llegaron tarde. *@
+
+<h3>Estudiantes que llegaron tarde</h3>
+
+@if (tardanzas == null)
+{
+    <p>Cargando lista de tardanzas...</p>
+}
+else if (tardanzas.Count == 0)
+{
+    <p>No hay estudiantes que hayan llegado tarde.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Matrícula</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Curso</th>
+                <th>Motivo</th>
+                <th>Fecha y Hora</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var tardanza in tardanzas)
+            {
+                <tr>
+                    <td>@tardanza.Matricula</td>
+                    <td>@tardanza.Nombre</td>
+                    <td>@tardanza.Apellido</td>
+                    <td>@tardanza.Curso</td>
+                    <td>@tardanza.Motivo</td>
+                    <td>@tardanza.FechaHora</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<button @onclick="NavegarARegistro" class="btn btn-primary">Registrar Nueva Tardanza</button>
+
+@code {
+    private List<Tardanza> tardanzas;
+
+    // Este método se llama cuando se inicializa el componente
+    protected override void OnInitialized()
+    {
+        // Aquí es donde se carga la lista de tardanzas
+        tardanzas = TardanzaService.GetAllTardanzas();
+    }
+
+    private void NavegarARegistro()
+    {
+        // Redirige a la página de registro de tardanza.
+        NavigationManager.NavigateTo("/registro-tardanza");
+    }
+}
+

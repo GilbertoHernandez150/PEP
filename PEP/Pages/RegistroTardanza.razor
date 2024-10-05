@@ -1,0 +1,48 @@
+﻿@page "/registro-tardanza"
+@using RegistroTardanzas.Shared
+@inject NavigationManager NavigationManager
+
+@* 2023-1211/GilbertoHernandez *@
+@* Página que permite registrar una nueva tardanza. *@
+
+<h3>Registrar Nueva Tardanza</h3>
+
+<div class="form-group">
+    <label>Matrícula</label>
+    <input @bind="tardanza.Matricula" class="form-control" />
+</div>
+<div class="form-group">
+    <label>Nombre</label>
+    <input @bind="tardanza.Nombre" class="form-control" />
+</div>
+<div class="form-group">
+    <label>Apellido</label>
+    <input @bind="tardanza.Apellido" class="form-control" />
+</div>
+<div class="form-group">
+    <label>Curso</label>
+    <input @bind="tardanza.Curso" class="form-control" />
+</div>
+<div class="form-group">
+    <label>Motivo</label>
+    <input @bind="tardanza.Motivo" class="form-control" />
+</div>
+
+<button @onclick="RegistrarTardanza" class="btn btn-success">Registrar</button>
+
+@code {
+    private Tardanza tardanza = new();
+
+    private void RegistrarTardanza()
+    {
+        // Registrar la fecha y hora actual.
+        tardanza.FechaHora = DateTime.Now;
+
+        // Agregar la nueva tardanza a la lista.
+        TardanzaService.AddTardanza(tardanza);
+
+        // Redirigir a la página principal después de registrar la tardanza.
+        NavigationManager.NavigateTo("/");
+    }
+}
+
